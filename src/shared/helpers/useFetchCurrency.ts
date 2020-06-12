@@ -8,13 +8,14 @@ export default function() {
     const random = Math.random() * (max - min)  + min;
     return Math.floor(random) * 1000;
   }
-  let timeoutId: number;
-  const fectchData = () => {
-    dispatch(fetchCurrencyAction());
-    const delayTime: number = getDelayTime(10, 60);
-    timeoutId = setTimeout(() => fectchData(), delayTime);
-  }
+
   useEffect(() => {
+    let timeoutId: number;
+    const fectchData = () => {
+      dispatch(fetchCurrencyAction());
+      const delayTime: number = getDelayTime(10, 60);
+      timeoutId = setTimeout(() => fectchData(), delayTime);
+    }
     fectchData();
     return () => {
       timeoutId && clearTimeout(timeoutId);

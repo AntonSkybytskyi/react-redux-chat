@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { useSelector, useDispatch } from 'react-redux';
+import { useSelector } from 'react-redux';
 import styled from 'styled-components';
 import Sidebar from '../../shared/ui/Sidebar';
 import TradeList from '../../components/TradeList';
@@ -15,7 +15,6 @@ interface MathParams {
 }
 
 export default function Trades(props: RouteComponentProps<MathParams>) {
-  const dispatch = useDispatch();
   const [selectedTrade, setSelectedTrade] = useState<TradeItem | null>();
   useFetchCurrency();
  
