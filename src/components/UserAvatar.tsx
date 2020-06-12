@@ -5,14 +5,15 @@ interface UserAvatarProps {
   username: string;
   image?: string;
   className?: string;
+  primary?: boolean;
 }
-export default function UserAvatar({ image, username, className }: UserAvatarProps) {
+export default function UserAvatar({ image, username, className, primary }: UserAvatarProps) {
   const imagePlaceholder: string = username.split(' ').map((value: string) => value[0].toLocaleUpperCase()).join('');
   return (
     <>
       {image 
         ? <Image className={className} src={image} alt={username} /> 
-        : <ImagePlaceholder className={className} placeholder={imagePlaceholder}><span>{imagePlaceholder}</span></ImagePlaceholder>}
+        : <ImagePlaceholder className={className} primary={primary}><span>{imagePlaceholder}</span></ImagePlaceholder>}
     </>
   )
 }
@@ -25,8 +26,12 @@ const Image = styled.img`
   display: flex;
   overflow: hidden;
 `;
-const ImagePlaceholder = styled.div`
-  background: ${props => props.theme.grey};
+
+interface ImagePlaceholderProps {
+  primary?: boolean;
+}
+const ImagePlaceholder = styled.div<ImagePlaceholderProps>`
+  background: ${props => props.primary ? props.theme.green : props.theme.grey};
   border-radius: 50%;
   height: 40px;
   width: 40px;

@@ -50,7 +50,7 @@ export default function Trades(props: RouteComponentProps<MathParams>) {
 
 const Content = styled.div`
   display: flex;
-  height: 100%;
+  height: calc(100vh - 51px - 66px);
   .side {
     border-right: 1px solid #cecece;
   }

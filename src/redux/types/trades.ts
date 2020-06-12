@@ -2,8 +2,8 @@ export const MARK_AS_PAID = 'MARK_AS_PAID';
 export const DELETE_TRADE = 'DELETE_TRADE';
 export const MARK_AS_READ_BUYER = 'MARK_AS_READ_BUYER';
 export const MARK_AS_READ_SELLER = 'MARK_AS_READ_SELLER';
-export const MARK_AS_UNREAD_BUYER = 'MARK_AS_READ_BUYER';
-export const MARK_AS_UNREAD_SELLER = 'MARK_AS_READ_SELLER';
+export const MARK_AS_UNREAD_BUYER = 'MARK_AS_UNREAD_BUYER';
+export const MARK_AS_UNREAD_SELLER = 'MARK_AS_UNREAD_SELLER';
 
 export interface MarkAsPaid {
   type: typeof MARK_AS_PAID;

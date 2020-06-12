@@ -7,4 +7,5 @@ export default {
   chatBackground: '#f5f7fa',
   danger: 'red',
   white: '#fff',
+  blue: '#5c7394',
 }

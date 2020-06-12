@@ -11,7 +11,7 @@ export default function() {
   let timeoutId: number;
   const fectchData = () => {
     dispatch(fetchCurrencyAction());
-    const delayTime: number = getDelayTime(5, 15);
+    const delayTime: number = getDelayTime(10, 60);
     timeoutId = setTimeout(() => fectchData(), delayTime);
   }
   useEffect(() => {

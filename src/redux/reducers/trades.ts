@@ -37,7 +37,7 @@ export type TradesState = TradeItem[];
 
 const initialState: TradesState = [
   {
-    id: 'some-long-string',
+    id: 'trade-1',
     status: TradeStatus.PAID,
     paymentMethod: 'Amazon Gift Card',
     btc: 0.00542345,
@@ -53,7 +53,7 @@ const initialState: TradesState = [
     unreadSeller: false,
   },
   {
-    id: 'some-long-string-2',
+    id: 'trade-2',
     status: TradeStatus.NOT_PAID,
     paymentMethod: 'PayPal',
     btc: 0.30,
