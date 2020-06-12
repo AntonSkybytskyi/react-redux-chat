@@ -1,12 +1,13 @@
-import React, { useContext } from 'react'
-import { TradeItem, TradeStatus } from '../redux/reducers/trades'
+import React, { useContext } from 'react';
+import { TradeItem } from '../redux/reducers/trades';
 import styled from 'styled-components';
 import { NavLink } from 'react-router-dom';
 import { routes, sellBitcoinsRoutes } from '../routes';
-import { Indicator } from '../shared/ui/Indicator';
+import Indicator from '../shared/ui/Indicator';
 import UserAvatar from './UserAvatar';
 import { TradesContext, ITradesContext } from '../pages/Trades/TradesProvider';
 import useExchangeRate from '../shared/helpers/useExchangeRate';
+import TradeStatus from './TradeStatus';
 
 interface TradeListItemProps {
   item: TradeItem;
@@ -14,20 +15,20 @@ interface TradeListItemProps {
 
 export default function TradeListItem(props: TradeListItemProps) {
   const { item } = props;
-  const statuses = {
-    [TradeStatus.PAID]: 'PAID',
-    [TradeStatus.NOT_PAID]: 'NOT PAID'
-  };
   const { btc } = item;
-  const { currency } = useContext<ITradesContext>(TradesContext);
+  const { currency, isSeller, isBuyer } = useContext<ITradesContext>(TradesContext);
   const { amount } = useExchangeRate(btc, currency && currency.rate_float);
+  const unread = (isSeller && item.unreadSeller) || (isBuyer && item.unreadBuyer);
 
   return (
     <Content to={`${routes.SELL_BTC + sellBitcoinsRoutes.TRADES}/${item.id}`} activeClassName="selected">
+      <IndicatorWrapper>
+        <Indicator unread={unread} />
+      </IndicatorWrapper>
+
       <Details>
         <p className="header">
-          {/* <Indicator unread={true} /> */}
-          {item.buyer.name} <strong>is buying</strong>
+          {item.buyer.username} <strong>is buying</strong>
         </p>
         <p className="desciption">
           <strong>{item.paymentMethod}</strong>
@@ -37,10 +38,8 @@ export default function TradeListItem(props: TradeListItemProps) {
         </p>
       </Details>
       <TradeInfo>
-        <UserAvatar className="avatar" image={item.buyer.avatart} username={item.buyer.name} />
-        <Status>
-          {statuses[item.status]}
-        </Status>
+        <UserAvatar className="avatar" image={item.buyer.avatart} username={item.buyer.username} />
+        <TradeStatus status={item.status} />
       </TradeInfo>
     </Content>
   )
@@ -53,7 +52,7 @@ const Content = styled(NavLink)`
   text-decoration: none;
   color: ${props => props.theme.grey};
   border-bottom: 1px solid ${props => props.theme.lightGrey};
-
+  position: relative;
   &.selected {
     border-right: 3px solid ${props => props.theme.grey};
   }
@@ -94,8 +93,9 @@ const TradeInfo = styled.div`
   }
 `;
 
-const Status = styled.div`
-  color: ${props => props.theme.green};
-  font-weight: bold;
-  text-align: center;
+const IndicatorWrapper = styled.div`
+  position: absolute;
+  @media all and (max-width: 950px) {
+      top: 21px;
+  }
 `;

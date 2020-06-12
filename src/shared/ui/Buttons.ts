@@ -2,7 +2,7 @@ import styled from 'styled-components';
 interface ButtonProps {
   primary?: boolean;
 }
-export const Button = styled.button<ButtonProps>`
+const Button = styled.button<ButtonProps>`
   background-color: ${props => props.primary ? props.theme.green : props.theme.grey};
   border-radius: 15px;
   border: none;
@@ -18,3 +18,5 @@ export const Button = styled.button<ButtonProps>`
     background-color: ${props => props.theme.grey};
   }
 `;
+
+export default Button;

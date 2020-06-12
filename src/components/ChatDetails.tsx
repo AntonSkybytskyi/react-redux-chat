@@ -1,9 +1,11 @@
-import React from 'react'
+import React, { useContext } from 'react'
 import styled from 'styled-components'
 import { TradeItem, TradeStatus } from '../redux/reducers/trades';
-import { Button } from '../shared/ui/Buttons';
+import Button from '../shared/ui/Buttons';
 import { useDispatch } from 'react-redux';
 import { markAsPaid } from '../redux/actions/trades';
+import ChatGrid from './ChatGrid';
+import { ITradesContext, TradesContext } from '../pages/Trades/TradesProvider';
 
 interface ChatDetailsProps {
   trade: TradeItem;
@@ -13,25 +15,28 @@ export default function ChatDetails(props: ChatDetailsProps) {
   const { trade } = props;
   const isNotPaid = trade.status === TradeStatus.NOT_PAID;
   const dispatch = useDispatch();
-  
+
+  const { isSeller } = useContext<ITradesContext>(TradesContext);
+
   const onReleaseButtonClicked = () => {
     dispatch(
       markAsPaid(trade.id)
     );
   };
-  
+
   return (
     <Content>
       <ContentRow>
-        You are trading with <strong>{trade.buyer.name}</strong>
+        You are trading with <strong>{trade.buyer.username}</strong>
         <br/>
         <small>Started 23 minutes ago</small>
       </ContentRow>
-      <ContentRow>
-        <Button primary={isNotPaid} onClick={onReleaseButtonClicked}>Release bitcoins</Button>
-      </ContentRow>
-      <ContentRow>
+      { isSeller && <ContentRow>
+          <Button primary={isNotPaid} onClick={onReleaseButtonClicked}>Release bitcoins</Button>
+      </ContentRow> }
 
+      <ContentRow>
+        <ChatGrid trade={trade} /> 
       </ContentRow>
     </Content>
   )

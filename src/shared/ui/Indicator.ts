@@ -2,7 +2,7 @@ import styled from 'styled-components';
 interface IndicatorProps {
   unread?: boolean;
 }
-export const Indicator = styled.i<IndicatorProps>`
+const Indicator = styled.i<IndicatorProps>`
   display: inline-block;
   height: 10px;
   width: 10px;
@@ -10,3 +10,5 @@ export const Indicator = styled.i<IndicatorProps>`
   background: ${props => props.unread ? props.theme.green : props.theme.grey };
   margin-right: 4px;
 `;
+
+export default Indicator;

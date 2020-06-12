@@ -1,7 +1,8 @@
-import React from 'react'
-import { NavLink } from 'react-router-dom'
-import styled from 'styled-components'
-import { routes } from '../routes'
+import React from 'react';
+import { NavLink } from 'react-router-dom';
+import styled from 'styled-components';
+import { routes } from '../routes';
+import SelectUser from './SelectUser';
 
 
 
@@ -18,6 +19,7 @@ export default function Header() {
       <Title>
         PAXFUL
       </Title>
+      <SelectUser />
       <List>
         {links.map(({ path, viewValue }) => {
           return <ListItem key={path} to={path} activeClassName="selected">{viewValue}</ListItem>

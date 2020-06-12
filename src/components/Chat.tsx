@@ -1,11 +1,12 @@
-import React, { useState } from 'react'
+import React, { useState, useContext, useEffect } from 'react'
 import styled from 'styled-components'
 import { TradeItem } from '../redux/reducers/trades';
 import { useDispatch } from 'react-redux';
-import { deleteTrade } from '../redux/actions/trades';
+import { deleteTrade, markAsReadSeller, markAsReadBuyer } from '../redux/actions/trades';
 import ChatDetails from './ChatDetails';
-import { Sidebar } from '../shared/ui/Sidebar';
-import { Button } from '../shared/ui/Buttons';
+import Button from '../shared/ui/Buttons';
+import ColoredText from '../shared/ui/ColoredText';
+import { ITradesContext, TradesContext } from '../pages/Trades/TradesProvider';
 
 interface ChatProps {
   item: TradeItem;
@@ -15,6 +16,13 @@ export default function Chat({ item }: ChatProps) {
   const dispatch = useDispatch();
   const [showDetails, setShowDetails] = useState(false);
 
+  const { isSeller } = useContext<ITradesContext>(TradesContext);
+
+  useEffect(() => {
+    console.log('read action!', isSeller)
+    dispatch(isSeller ? markAsReadSeller(item.id) : markAsReadBuyer(item.id));
+  }, [item.id, isSeller, dispatch]);
+
   const onDeleteClicked = () => {
     dispatch(
       deleteTrade(item.id)
@@ -23,7 +31,6 @@ export default function Chat({ item }: ChatProps) {
   const onShowDetailClicked = () => {
     setShowDetails(!showDetails);
   };
-  console.log('showDetails', showDetails);
   return (
     <ChatWrapper>
       <Column size={2}>
@@ -36,13 +43,13 @@ export default function Chat({ item }: ChatProps) {
               <ChatDescriptionTitle>{item.paymentMethod}</ChatDescriptionTitle>
               <br/>
               <ChatDescriptionSubtitle>
-                <span className="username">{item.buyer.name}</span>
-                <Reputation success value={item.buyer.positive}>
+                <span className="username">{item.buyer.username}</span>
+                <ColoredText success>
                   {item.buyer.positive > 0 ? '+' : ''}{item.buyer.positive}
-                </Reputation>/ 
-                <Reputation danger value={item.buyer.negative}>
+                </ColoredText>/ 
+                <ColoredText danger>
                   {item.buyer.negative > 0 ? '-' : ''}{item.buyer.negative}
-                </Reputation>
+                </ColoredText>
               </ChatDescriptionSubtitle>
             </ChatDescription>
             <ChatIconContent>
@@ -123,14 +130,6 @@ const ChatHeader = styled.div`
   border-bottom: 1px solid ${props => props.theme.grey};
 `;
 
-interface ReputationProps {
-  success?: boolean;
-  danger?: boolean;
-  value: number;
-}
-const Reputation = styled.span<ReputationProps>`
-  color: ${props => (props.success && props.value > 0) ? props.theme.green : (props.danger && props.value > 0) ? props.theme.danger : props.theme.grey };
-`
 
 const ChatDescription = styled.div`
   flex: 1;
